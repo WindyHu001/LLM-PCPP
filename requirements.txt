@@ -1,0 +1,9 @@
+# Runtime dependencies (same as pyproject.toml).
+# The A* reproduction of the paper was verified with
+#   Python 3.9.6:  numpy 1.26.4, matplotlib 3.9.3, ortools 9.11.4210, PyYAML 6.0.2
+#   Python 3.13.2: numpy 2.5.5, matplotlib 3.11.2, ortools 9.15.6755, PyYAML 6.0.3, openai 3.57.0
+numpy>=1.21
+matplotlib>=3.5
+ortools>=9.4
+PyYAML>=6.0
+openai>=1.0

@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-pcpp"
+version = "1.0.0"
+description = "LLM-PCPP: prioritized coverage path planning with LLM-identified POIs, LLM-A* and TSP (ISARC 2025)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE", "third_party/llm-astar/LICENSE"]
+authors = [{ name = "Zhaofeng Hu" }, { name = "Ci-Jyun Liang" }]
+keywords = ["coverage path planning", "large language models", "LLM-A*", "A*", "TSP", "robotics", "construction"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "numpy>=1.21",
+  "matplotlib>=3.5",
+  "ortools>=9.4",
+  "PyYAML>=6.0",
+  "openai>=1.0",
+]
+
+[project.optional-dependencies]
+tools = ["opencv-python>=4.5", "Pillow>=9.0"]
+dev = ["pytest>=7.0"]
+
+[project.urls]
+Paper = "https://www.iaarc.org/publications/fulltext/034_LLM-PCPP__A_novel_robot_prioritized_coverage_path_planning_approach_for_complex_environments.pdf"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+filterwarnings = [
+  # Emitted by OR-Tools' SWIG bindings on Python >= 3.12, not by this code.
+  "ignore:builtin type [Ss]wig.* has no __module__ attribute:DeprecationWarning",
+]

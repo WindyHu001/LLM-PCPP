@@ -1,0 +1,15 @@
+Path from POI 14 to POI 15 with distance: 4309.208000000098
+POI 14 to POI 15 is {'operation': 981708, 'storage': 709054, 'length': 4309.208000000098}.
+Updated Cumulative Data: {'operation': 42636892, 'storage': 28383237, 'count': 120}
+All POIs are reachable. Proceeding to TSP...
+Solving TSP...
+TSP solution completed. Visit order is:
+[0, 9, 8, 7, 3, 11, 5, 14, 13, 4, 1, 15, 10, 6, 2, 12, 0]
+Total TSP path length: 10530.60
+
+
+Updated Cumulative Data: {'operation': 72343616, 'storage': 44987486, 'count': 120}
+Solving TSP...
+TSP solution completed. Visit order is:
+[0, 9, 11, 8, 7, 3, 14, 5, 13, 4, 1, 10, 15, 6, 2, 12, 0]
+Total TSP path length: 9270.45

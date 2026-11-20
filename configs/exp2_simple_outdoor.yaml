@@ -1,0 +1,73 @@
+# Paper Experiment 2: simple outdoor construction site (drone footage).
+#
+# Coordinates: one grid cell per image pixel, origin at the bottom-left corner,
+# x to the right, y up. A region [[x_min, x_max], [y_min, y_max]] blocks the
+# cells x_min <= x < x_max, y_min <= y < y_max.
+
+name: exp2_simple_outdoor
+description: Simple outdoor construction site from drone footage, medium obstacle density (30%).
+
+grid:
+  width: 3024
+  height: 1890
+
+start: [1512, 0]
+
+task_guidance: Avoid obstacles, ensure coverage of most areas.
+
+# Obstacle classes are listed in the order in which they are written into the
+# LLM-A* prompt. `label` is the value used on the grid (and selects the hatch
+# pattern in plots).
+obstacle_classes:
+  - name: Green Fields
+    label: 3
+    regions:
+      - [[1900, 2200], [1240, 1600]]
+      - [[2200, 3024], [1020, 1790]]
+      - [[2120, 3024], [90, 930]]
+  - name: Construction Sites
+    label: 1
+    regions:
+      - [[0, 700], [590, 1650]]
+  - name: Engineering Vehicles
+    label: 2
+    regions:
+      - [[1200, 1850], [530, 1190]]
+
+# POIs identified with ChatGPT-o1; the notes are the model's explanations.
+pois:
+  - {name: POI_0, x: 50, y: 50, note: "Near bottom-left corner, well below the construction area."}
+  - {name: POI_1, x: 350, y: 300, note: "Still in the lower free zone, providing coverage slightly further east and above the extreme corner."}
+  - {name: POI_2, x: 50, y: 1800, note: "Near top-left corner, above the construction site."}
+  - {name: POI_3, x: 1000, y: 300, note: "Lower portion of the open band, ensuring coverage in the central bottom region."}
+  - {name: POI_4, x: 1000, y: 1500, note: "Upper portion of the open band, adding vertical coverage."}
+  - {name: POI_5, x: 1400, y: 300, note: "Below engineering vehicles area."}
+  - {name: POI_6, x: 1400, y: 1500, note: "Above engineering vehicles area."}
+  - {name: POI_7, x: 2000, y: 600, note: "Below the green field zone, mid-height coverage on the right side."}
+  - {name: POI_8, x: 2000, y: 1700, note: "Above the green field zone to ensure top-level coverage."}
+  - {name: POI_9, x: 2500, y: 980, note: "In the narrow corridor between the two stacked green fields, ensuring mid-height passage coverage."}
+  - {name: POI_10, x: 2970, y: 50, note: "Near bottom-right corner, below the bottom green field area."}
+  - {name: POI_11, x: 2970, y: 1850, note: "Near top-right corner, above the top green field."}
+
+# A* settings used for the published numbers.
+planners:
+  astar:
+    neighbor_order: axis_first
+    diagonal_cost: 1.414
+  llm-astar:
+    neighbor_order: axis_first
+    diagonal_cost: 1.414
+    model: gpt-4o
+
+# Numbers reported in the paper (Table 4) and the TSP tours from the run logs.
+paper_results:
+  astar:
+    path_length: 13562.50
+    operations: 60556220
+    storage: 39494015
+    route: [0, 11, 8, 10, 12, 9, 7, 5, 3, 2, 1, 4, 6, 0]
+  llm-astar:
+    path_length: 16300.53
+    operations: 39873931
+    storage: 26063827
+    route: [0, 11, 8, 10, 9, 12, 7, 5, 3, 1, 6, 2, 4, 0]

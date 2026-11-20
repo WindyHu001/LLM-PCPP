@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper below."
+title: "LLM-PCPP"
+type: software
+license: MIT
+authors:
+  - family-names: Hu
+    given-names: Zhaofeng
+    affiliation: Stony Brook University
+  - family-names: Liang
+    given-names: Ci-Jyun
+    affiliation: Stony Brook University
+preferred-citation:
+  type: conference-paper
+  title: "LLM-PCPP: A novel robot prioritized coverage path planning approach for complex environments"
+  authors:
+    - family-names: Hu
+      given-names: Zhaofeng
+      affiliation: Stony Brook University
+    - family-names: Liang
+      given-names: Ci-Jyun
+      affiliation: Stony Brook University
+  collection-title: "Proceedings of the 42nd International Symposium on Automation and Robotics in Construction (ISARC 2025)"
+  conference:
+    name: "42nd International Symposium on Automation and Robotics in Construction (ISARC 2025)"
+    city: Montreal
+    country: CA
+  start: 250
+  end: 257
+  year: 2025
+  url: "https://www.iaarc.org/publications/fulltext/034_LLM-PCPP__A_novel_robot_prioritized_coverage_path_planning_approach_for_complex_environments.pdf"

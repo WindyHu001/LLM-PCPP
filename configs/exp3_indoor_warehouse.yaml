@@ -1,0 +1,80 @@
+# Paper Experiment 3: virtual indoor warehouse with task-specific guidance.
+#
+# Coordinates: origin at the bottom-left corner, x to the right, y up. A region
+# [[x_min, x_max], [y_min, y_max]] blocks the cells x_min <= x < x_max,
+# y_min <= y < y_max.
+
+name: exp3_indoor_warehouse
+description: Virtual indoor warehouse, medium obstacle density (30%), emphasis on the cold storage area.
+
+grid:
+  width: 3024
+  height: 1890
+
+start: [1512, 0]
+
+task_guidance: >-
+  Avoid obstacles and cover most of the map; ensure detailed exploration around
+  the cold storage area for proper monitoring.
+
+# Obstacle classes are listed in the order in which they are written into the
+# LLM-A* prompt. `label` is the value used on the grid (and selects the hatch
+# pattern in plots).
+obstacle_classes:
+  - name: Shelves
+    label: 1
+    regions:
+      - [[100, 500], [100, 800]]
+      - [[700, 1100], [100, 800]]
+      - [[100, 500], [1000, 1700]]
+      - [[700, 1100], [1000, 1700]]
+  - name: Automated Sorting Station
+    label: 2
+    regions:
+      - [[1300, 1600], [800, 1400]]
+  - name: Cold Storage Area
+    label: 3
+    regions:
+      - [[2000, 2800], [100, 600]]
+  - name: Hazardous Area
+    label: 4
+    regions:
+      - [[2500, 2900], [1400, 1800]]
+
+# POIs identified with ChatGPT-o1; the notes are the model's explanations.
+pois:
+  - {name: POI_0, x: 10, y: 10, note: "Bottom-left corner coverage."}
+  - {name: POI_1, x: 10, y: 1880, note: "Top-left corner coverage."}
+  - {name: POI_2, x: 3014, y: 10, note: "Bottom-right corner coverage."}
+  - {name: POI_3, x: 3014, y: 1880, note: "Top-right corner coverage, clear of the hazardous area (y >= 1400, x >= 2500)."}
+  - {name: POI_4, x: 550, y: 450, note: "Between the bottom shelves (#1 ends at x=500, #2 begins at x=700), ensuring coverage of that central-lower gap."}
+  - {name: POI_5, x: 550, y: 1350, note: "Between the top shelves (#3 ends at x=500, #4 begins at x=700) for upper-mid coverage."}
+  - {name: POI_6, x: 1250, y: 750, note: "Below the automated sorting station (x=1300-1600, y=800-1400) for safe but direct monitoring."}
+  - {name: POI_7, x: 1250, y: 1450, note: "Above the sorting station; again monitoring from a safe distance."}
+  - {name: POI_8, x: 1110, y: 150, note: "Just right of shelf #2's lower-right corner (x=1100, y=100) for more coverage around that shelf region."}
+  - {name: POI_9, x: 1500, y: 300, note: "Central-south coverage, below the sorting station and away from shelves."}
+  - {name: POI_10, x: 2050, y: 90, note: "At the bottom edge of cold storage (which starts at y=100), allowing close inspection from below."}
+  - {name: POI_11, x: 2810, y: 90, note: "Also near the bottom edge of cold storage but on the right side, spanning coverage across its full width."}
+  - {name: POI_12, x: 2400, y: 620, note: "Just above cold storage (which ends at y=600) for direct inspection from the top."}
+
+# A* settings used for the published numbers.
+planners:
+  astar:
+    neighbor_order: diagonal_first
+    diagonal_cost: exact
+  llm-astar:
+    neighbor_order: axis_first
+    diagonal_cost: 1.414
+    model: gpt-4o
+
+# Numbers reported in the paper (Table 6) and the LLM-A* tour from the run log.
+paper_results:
+  astar:
+    path_length: 13208.39
+    operations: 61625226
+    storage: 35970025
+  llm-astar:
+    path_length: 15682.17
+    operations: 35904779
+    storage: 24992699
+    route: [0, 10, 9, 1, 5, 6, 2, 8, 7, 12, 4, 3, 13, 11, 0]
